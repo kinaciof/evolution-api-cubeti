@@ -20,8 +20,18 @@ jobs:
       - name: Install and Build
         run: |
           npm install --legacy-peer-deps
-          # Comando corrigido com o caminho do schema da v2
-          npx prisma generate --schema ./src/db/prisma/schema.prisma
+          
+          # Busca automática do arquivo schema.prisma
+          PRISMA_PATH=$(find . -name "schema.prisma" -not -path "*/node_modules/*" | head -n 1)
+          
+          if [ -z "$PRISMA_PATH" ]; then
+            echo "ERRO: Arquivo schema.prisma não foi encontrado no repositório!"
+            exit 1
+          fi
+          
+          echo "Sucesso: Arquivo Prisma encontrado em: $PRISMA_PATH"
+          npx prisma generate --schema="$PRISMA_PATH"
+          
           npm run build --if-present
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
@@ -52,4 +62,4 @@ jobs:
           app-name: 'cubeapiwhatsapp'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57D50F236FC64CC094DB05C8BB7D5A5B }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57
