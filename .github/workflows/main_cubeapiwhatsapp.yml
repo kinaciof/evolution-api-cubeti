@@ -62,4 +62,4 @@ jobs:
           app-name: 'cubeapiwhatsapp'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57D50F236FC64CC094DB05C8BB7D5A5B }}
